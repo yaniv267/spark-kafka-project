@@ -50,32 +50,32 @@ enriched_df = parse_df \
        (F.round(F.col("speed") / F.lit(30))).cast("int").alias("expected_gear")
     )
 
-checked_df = enriched_df.select(
-    F.min("speed").alias("min_speed"),
-    F.max("speed").alias("max_speed"),
-    F.min("rpm").alias("min_rpm"),
-    F.max("rpm").alias("max_rpm"),
-    F.min("gear").alias("min_gear"),
-    F.max("gear").alias("max_gear"),
-)
+# checked_df = enriched_df.select(
+#     F.min("speed").alias("min_speed"),
+#     F.max("speed").alias("max_speed"),
+#     F.min("rpm").alias("min_rpm"),
+#     F.max("rpm").alias("max_rpm"),
+#     F.min("gear").alias("min_gear"),
+#     F.max("gear").alias("max_gear"),
+# )
 
-query = checked_df.writeStream \
-    .outputMode("complete")\
-    .format("console") \
-    .option("truncate", False) \
-    .start()
+# query = checked_df.writeStream \
+#     .outputMode("complete")\
+#     .format("console") \
+#     .option("truncate", False) \
+#     .start()
 
-query.awaitTermination()
+# query.awaitTermination()
 
-# enriched_df.selectExpr("to_json(struct(*)) AS value") \
-#     .writeStream \
-#     .format("kafka") \
-#     .option("kafka.bootstrap.servers", "course-kafka:9092") \
-#     .option("topic", "samples-enriched") \
-#     .option("checkpointLocation", "s3a://spark/checkpoints/enrichment") \
-#     .outputMode("append") \
-#     .start() \
-#     .awaitTermination()
+enriched_df.selectExpr("to_json(struct(*)) AS value") \
+    .writeStream \
+    .format("kafka") \
+    .option("kafka.bootstrap.servers", "course-kafka:9092") \
+    .option("topic", "samples-enriched") \
+    .option("checkpointLocation", "s3a://spark/checkpoints/enrichment") \
+    .outputMode("append") \
+    .start() \
+    .awaitTermination()
 
 
 # enriched_df \
