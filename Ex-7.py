@@ -26,7 +26,7 @@ parse_df=stream_df \
     .select(F.col('parsed_json.*'))
 
 
-agg_df=parse_df.withWatermark("event_time", "1 minutes")\
+agg_df=parse_df.withWatermark("event_time", "15 minutes")\
        .groupBy()\
        .agg(
        F.count("*").alias("num_of_rows"),
@@ -45,3 +45,6 @@ agg_df \
     .outputMode('complete') \
     .start()\
     .awaitTermination()
+
+
+spark.stop()

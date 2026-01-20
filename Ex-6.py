@@ -42,9 +42,5 @@ alerts_df.selectExpr("to_json(struct(*)) AS value") \
     .start() \
     .awaitTermination()
 
-# alerts_df.writeStream \
-#     .format("console") \
-#     .option("truncate", False) \
-#     .outputMode("append") \
-#     .start() \
-#     .awaitTermination()
+
+spark.stop()
