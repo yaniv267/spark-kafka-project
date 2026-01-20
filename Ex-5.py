@@ -16,6 +16,11 @@ models_df = spark.read.parquet("s3a://spark/data/dims/car_models")
 colors_df = spark.read.parquet("s3a://spark/data/dims/car_colors")
 cars_df = spark.read.parquet("s3a://spark/data/dims/cars")
 
+models_df.cache()
+colors_df.cache()
+cars_df.cache()
+
+
 
 stream_df = spark\
     .readStream\
