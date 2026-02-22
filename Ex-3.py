@@ -31,7 +31,7 @@ cars_df.select(
 ).show()
 
 
-# cars_df.write.mode("overwrite").parquet("s3a://spark/data/dims/cars")
+cars_df.write.mode("overwrite").parquet("s3a://spark/data/dims/cars")
 
 
 
